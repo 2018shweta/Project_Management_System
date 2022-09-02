@@ -34,9 +34,9 @@ public class UserBean {
 	
 	private Boolean isActive;
 	
-	private Boolean isManager;
-	
 	private String authToken;
+	
+	private String contactNo;
 	
 	
 	@ManyToOne
@@ -107,13 +107,7 @@ public class UserBean {
 		this.isActive = isActive;
 	}
 
-	public Boolean getIsManager() {
-		return isManager;
-	}
-
-	public void setIsManager(Boolean isManager) {
-		this.isManager = isManager;
-	}
+	
 
 	public String getAuthToken() {
 		return authToken;
@@ -129,6 +123,14 @@ public class UserBean {
 
 	public void setRole(RoleBean role) {
 		this.role = role;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
 	}
 	
 	
