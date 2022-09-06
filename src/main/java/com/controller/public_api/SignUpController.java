@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bean.EmailDetailsBean;
+import com.bean.ForgotPasswordBean;
 import com.bean.LoginBean;
 import com.bean.ResponseBean;
 import com.bean.RoleBean;
 import com.bean.UserBean;
 import com.repository.RoleRepository;
 import com.repository.UserRepository;
+import com.service.OptService;
 import com.service.TokenService;
 
 @RestController
@@ -39,6 +42,12 @@ public class SignUpController {
 	
 	@Autowired
 	TokenService tokenService;
+	
+	@Autowired
+	OptService optService;
+	
+	@Autowired
+	EmailController emailController;
 	
 	@PostMapping("/addUser")
 	public ResponseEntity<?> addUser(@RequestBody UserBean user)
@@ -103,13 +112,55 @@ public class SignUpController {
 	}
 	
 	@GetMapping("/getUserById/{userId}")
-	public ResponseEntity<?> getUserById(@RequestBody @PathVariable("userId") Integer userId)
+	public ResponseEntity<?> getUserById( @PathVariable("userId") Integer userId)
 	{
 		UserBean user=userRepo.findByUserId(userId);
 		ResponseBean<UserBean> resp=new ResponseBean<>();
 		resp.setData(user);
 		resp.setMsg("user availabel");
 		return ResponseEntity.ok(resp);
+	}
+	
+	
+	
+	
+	
+	@PostMapping("/otpsend")
+	public ResponseEntity<?> sendotp(@RequestBody LoginBean login){
+		EmailDetailsBean emailBean = new EmailDetailsBean();
+		String email =  login.getEmail();
+		//UserBean userBean = userRepo.findByEmail(email);
+		Integer otp = optService.genrateOtp();
+		emailBean.setRecipient(email);
+		emailBean.setSubject("forget password otp");
+		emailBean.setMsgBody("forgot password OTP is-"+otp);
+		emailController.sendMail(emailBean);			
+		//userBean.setOtp(otp);
+		//userRepo.save(userBean);
+		return ResponseEntity.ok(emailBean);
+	}
+	
+	@PostMapping("/otp")
+	public ResponseEntity<?> forgot(@RequestBody ForgotPasswordBean forgotpassword){
+		ResponseBean<Object> res = new ResponseBean<>();
+		String email = forgotpassword.getEmail();
+		UserBean userBean = userRepo.findByEmail(email);
+		Integer otp = userBean.getOtp();
+		if(otp == null ) {
+			res.setData(email);
+			res.setMsg("otp not found");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+		}else if(otp.equals(forgotpassword.getOtp())) {
+			res.setData(email);
+			res.setMsg("successfully...");
+			userBean.setOtp(null);
+//			userRepo.save(userBean);
+			return ResponseEntity.ok(res);
+		}else {
+			res.setData(email);
+			res.setMsg("incorrect otp");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+		}
 	}
 	
 	

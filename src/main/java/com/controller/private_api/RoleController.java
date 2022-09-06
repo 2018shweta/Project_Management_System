@@ -2,6 +2,7 @@ package com.controller.private_api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import com.repository.RoleRepository;
 
 @RestController
 @RequestMapping("/private_api")
+@CrossOrigin
 public class RoleController {
 
 	@Autowired

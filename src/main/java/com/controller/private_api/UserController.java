@@ -18,7 +18,7 @@ import com.repository.RoleRepository;
 import com.repository.UserRepository;
 
 @Controller
-@RequestMapping("private_api")
+@RequestMapping("/private_api")
 @CrossOrigin
 public class UserController {
     @Autowired
@@ -28,7 +28,7 @@ public class UserController {
     RoleRepository roleRepo;
     
 	@DeleteMapping("/del/{userId}")
-	public ResponseEntity<?> delUser(@RequestBody @PathVariable("userId") Integer userId)
+	public ResponseEntity<?> delUser( @PathVariable("userId") Integer userId)
 	{
 		System.out.println("userConroller");
 		//List<UserBean> user=userRepo.findAll();

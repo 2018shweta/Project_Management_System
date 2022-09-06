@@ -17,9 +17,9 @@ public class UserBean {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
+
+    private Integer otp;
     
-    @NotNull
-    @Size(min=1,max=20)
 	private String firstName;
 	
 	private String lastName;
@@ -108,6 +108,14 @@ public class UserBean {
 	}
 
 	
+
+	public Integer getOtp() {
+		return otp;
+	}
+
+	public void setOtp(Integer otp) {
+		this.otp = otp;
+	}
 
 	public String getAuthToken() {
 		return authToken;

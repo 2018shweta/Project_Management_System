@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/private_api")
+@CrossOrigin
 public class CategoryController {
 
 	@Autowired
@@ -28,10 +30,11 @@ public class CategoryController {
 	public ResponseEntity<?> addCategory(@RequestBody CategoryBean category)
 	{
 		ResponseBean<CategoryBean> resp =new ResponseBean<>();
+		System.out.println("add cat atart");
 		CategoryBean cat=categoryRepo.findByCategoryName(category.getCategoryName());
 		if(cat==null)
 		{
-			
+			System.out.println("add cat");
 			categoryRepo.save(category);
 			resp.setData(category);
 			resp.setMsg("category added");
@@ -40,13 +43,14 @@ public class CategoryController {
 		else {
 			resp.setMsg("allready available Category");
 			resp.setData(category);
-			return ResponseEntity.ok(resp);
+			return ResponseEntity.ok("allready available");
 		}
 	}
 	
-	@GetMapping("allCategory")
+	@GetMapping("/allCategory")
 	public ResponseEntity<?> allCategory()
 	{
+		System.out.println("allcat spring");
 		 List<CategoryBean> categories =categoryRepo.findAll();
 		ResponseBean<List<CategoryBean>> resp=new ResponseBean<>();
 		resp.setData(categories);
@@ -77,9 +81,11 @@ public class CategoryController {
   @DeleteMapping("/deleteCategory/{categoryId}")
   public ResponseEntity<?> deleteCategory(@RequestBody @PathVariable("categoryId") Integer categoryId)
   {
+	  System.out.println("dlelet sts method");
+	  CategoryBean c1=categoryRepo.findByCategoryId(categoryId);
 	 categoryRepo.deleteById(categoryId);
 	 ResponseBean<CategoryBean> resp=new ResponseBean<>();
-	
+	resp.setData(c1);
 	 resp.setMsg("Category Deleted");
 	 
 	 return ResponseEntity.ok(resp);

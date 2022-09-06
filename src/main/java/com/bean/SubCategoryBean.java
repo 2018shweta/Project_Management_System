@@ -16,40 +16,58 @@ public class SubCategoryBean {
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer subCategroy;
+	private Integer subCategoryId;
 	
 	private String subCategoryName;
 	
 	private Boolean isActive;
 
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name="categoryId",nullable = false)
 	CategoryBean categories;
 
-	public Integer getSubCategroy() {
-		return subCategroy;
+
+	public Integer getSubCategoryId() {
+		return subCategoryId;
 	}
 
-	public void setSubCategroy(Integer subCategroy) {
-		this.subCategroy = subCategroy;
+
+	public void setSubCategoryId(Integer subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
+
 
 	public String getSubCategoryName() {
 		return subCategoryName;
 	}
 
+
 	public void setSubCategoryName(String subCategoryName) {
 		this.subCategoryName = subCategoryName;
 	}
+
 
 	public Boolean getIsActive() {
 		return isActive;
 	}
 
+
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
+
+
+	public CategoryBean getCategories() {
+		return categories;
+	}
+
+
+	public void setCategories(CategoryBean categories) {
+		this.categories = categories;
+	}
+
+
 
 	
 	

@@ -33,20 +33,20 @@ public class AuthTokenFilter implements Filter {
 			chain.doFilter(req, res);
 		} else {
 			
-			String authToken = request.getHeader("authToken");
-			System.out.println("authToken => " + authToken);
-			if (authToken == null || authToken.trim().length() != 16) {
-
-				System.out.println("token verification failed.......");
-				HttpServletResponse response = ((HttpServletResponse) res);
-				response.setContentType("application/json");
-				response.setStatus(401);
-				response.getWriter().write("{'msg':'Please Login before access service'}");
-			} else {
-				
+//			String authToken = request.getHeader("authToken private");
+//			System.out.println("authToken => " + authToken);
+//			if (authToken == null || authToken.trim().length() != 16) {
+//
+//				System.out.println("token verification failed.......");
+//				HttpServletResponse response = ((HttpServletResponse) res);
+//				response.setContentType("application/json");
+//				response.setStatus(401);
+//				response.getWriter().write("{'msg':'Please Login before access service'}");
+//			} else {
+//				
 				System.out.println("user verfied....");
 				chain.doFilter(req, res);// go ahead -> { Filter , Controller }
-			}
+//			}
 
 		}
 		
