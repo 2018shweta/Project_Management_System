@@ -29,7 +29,7 @@ public class CategoryBean {
 	@OneToMany(mappedBy = "categories")
 	Set<SubCategoryBean> subCategories;
 
-	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "categories")
 	List<ProductBean> products;
 	
