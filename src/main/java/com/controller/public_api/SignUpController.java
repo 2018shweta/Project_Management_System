@@ -129,14 +129,14 @@ public class SignUpController {
 	public ResponseEntity<?> sendotp(@RequestBody LoginBean login){
 		EmailDetailsBean emailBean = new EmailDetailsBean();
 		String email =  login.getEmail();
-		//UserBean userBean = userRepo.findByEmail(email);
+		UserBean userBean = userRepo.findByEmail(email);
 		Integer otp = optService.genrateOtp();
 		emailBean.setRecipient(email);
 		emailBean.setSubject("forget password otp");
 		emailBean.setMsgBody("forgot password OTP is-"+otp);
 		emailController.sendMail(emailBean);			
-		//userBean.setOtp(otp);
-		//userRepo.save(userBean);
+		userBean.setOtp(otp);
+		userRepo.save(userBean);
 		return ResponseEntity.ok(emailBean);
 	}
 	
@@ -154,7 +154,7 @@ public class SignUpController {
 			res.setData(email);
 			res.setMsg("successfully...");
 			userBean.setOtp(null);
-//			userRepo.save(userBean);
+		userRepo.save(userBean);
 			return ResponseEntity.ok(res);
 		}else {
 			res.setData(email);
@@ -163,5 +163,19 @@ public class SignUpController {
 		}
 	}
 	
+	
+	@PostMapping("/forgot")
+	public ResponseEntity<?> updatepassword(@RequestBody LoginBean login){
+		ResponseBean<Object> res = new ResponseBean<>();
+		UserBean userBean = userRepo.findByEmail(login.getEmail());
+		System.out.println(login.getEmail());
+		userBean.setPassword(bCp.encode(login.getPassword()));
+		System.out.println(login.getPassword());
+		userRepo.save(userBean);
+		res.setData(userBean);
+		res.setMsg("password successfully forgot...");
+		return ResponseEntity.ok(res);	
+		
+	}
 	
 }//main
